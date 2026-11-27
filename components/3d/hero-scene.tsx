@@ -18,9 +18,16 @@ function mulberry32(seed: number) {
   };
 }
 
+/** Tiến độ cuộn của trang: 0 ở đầu trang, 1 khi đã cuộn hết một màn hình. */
+function scrollProgress() {
+  if (typeof window === "undefined") return 0;
+  return Math.min(window.scrollY / Math.max(window.innerHeight, 1), 1.5);
+}
+
 function HeroBrick({ reduced, mobile }: { reduced: boolean; mobile: boolean }) {
   const outer = useRef<Group>(null);
   const inner = useRef<Group>(null);
+  const prevS = useRef(0);
   const { viewport } = useThree();
   // Mobile: brick nằm ở khoảng trống phía trên tiêu đề; desktop: bên phải
   const x = mobile ? viewport.width * 0.12 : Math.min(viewport.width * 0.27, 4.2);
@@ -33,10 +40,14 @@ function HeroBrick({ reduced, mobile }: { reduced: boolean; mobile: boolean }) {
     // Parallax: nghiêng theo vị trí chuột
     const px = reduced ? 0 : state.pointer.x;
     const py = reduced ? 0 : state.pointer.y;
-    outer.current.rotation.x = MathUtils.damp(outer.current.rotation.x, 0.35 - py * 0.35, 4, delta);
-    outer.current.rotation.z = MathUtils.damp(outer.current.rotation.z, -0.15 + px * 0.25, 4, delta);
-    outer.current.position.x = MathUtils.damp(outer.current.position.x, x + px * 0.4, 3, delta);
-    outer.current.position.y = MathUtils.damp(outer.current.position.y, y + py * 0.25, 3, delta);
+    // Vuốt/cuộn trang: brick xoay theo chiều vuốt, ngả ra sau và trôi lên (hoạt động cả trên điện thoại)
+    const s = reduced ? 0 : scrollProgress();
+    inner.current.rotation.y += (s - prevS.current) * 7;
+    prevS.current = s;
+    outer.current.rotation.x = MathUtils.damp(outer.current.rotation.x, 0.35 - py * 0.35 + s * 0.9, 4, delta);
+    outer.current.rotation.z = MathUtils.damp(outer.current.rotation.z, -0.15 + px * 0.25 - s * 0.5, 4, delta);
+    outer.current.position.x = MathUtils.damp(outer.current.position.x, x + px * 0.4 - s * 0.6, 3, delta);
+    outer.current.position.y = MathUtils.damp(outer.current.position.y, y + py * 0.25 + s * 1.8, 3, delta);
   });
 
   return (
@@ -72,10 +83,17 @@ function FloatingBricks({ count, reduced, mobile }: { count: number; reduced: bo
   }, [count]);
 
   const group = useRef<Group>(null);
+  const prevS = useRef(0);
   useFrame((state, delta) => {
     if (!group.current || reduced) return;
-    group.current.rotation.y = MathUtils.damp(group.current.rotation.y, state.pointer.x * 0.12, 2, delta);
-    group.current.rotation.x = MathUtils.damp(group.current.rotation.x, -state.pointer.y * 0.08, 2, delta);
+    // Các brick nhỏ trôi ngược chiều cuộn với tốc độ khác brick chính → tạo cảm giác chiều sâu
+    const s = scrollProgress();
+    const ds = s - prevS.current;
+    prevS.current = s;
+    group.current.rotation.y = MathUtils.damp(group.current.rotation.y, state.pointer.x * 0.12, 2, delta) + ds * 2.5;
+    group.current.rotation.x = MathUtils.damp(group.current.rotation.x, -state.pointer.y * 0.08 + s * 0.5, 2, delta);
+    group.current.rotation.z = MathUtils.damp(group.current.rotation.z, s * 0.35, 2, delta);
+    group.current.position.y = MathUtils.damp(group.current.position.y, s * 3.2, 3, delta);
   });
 
   return (
