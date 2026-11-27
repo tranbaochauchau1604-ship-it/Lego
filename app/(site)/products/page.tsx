@@ -22,10 +22,10 @@ export default async function ProductsPage({ searchParams }: PageProps<"/product
 
   return (
     <PageTransition>
-    <div className="mx-auto max-w-7xl px-4 pt-32 pb-10 md:px-6">
+    <div className="mx-auto max-w-7xl px-4 pt-28 pb-10 md:px-6 md:pt-32">
       <div>
         <p className="text-sm font-semibold tracking-[0.3em] text-brick-yellow uppercase">Catalog</p>
-        <h1 className="mt-3 font-display text-5xl font-bold tracking-tight md:text-7xl">
+        <h1 className="mt-3 font-display text-4xl font-bold tracking-tight sm:text-5xl md:text-7xl">
           Tất cả <span className="text-gradient">sản phẩm</span>
         </h1>
       </div>
@@ -45,7 +45,7 @@ export default async function ProductsPage({ searchParams }: PageProps<"/product
       ) : (
         <>
         <h2 className="sr-only">Danh sách sản phẩm</h2>
-        <ul className="mt-8 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+        <ul className="mt-8 grid grid-cols-2 gap-3 sm:gap-6 md:grid-cols-3 xl:grid-cols-4">
           {result.items.map((p, i) => (
             <li key={p.id}>
               <Reveal delay={(i % 4) * 0.06} className="h-full">

@@ -58,7 +58,7 @@ export function ProductFilters({ themes, categories, total }: { themes: string[]
             type="search"
             value={q}
             onChange={(e) => setQ(e.target.value)}
-            placeholder="Tìm theo tên hoặc mã bộ (vd: 42901)…"
+            placeholder="Tìm tên hoặc mã bộ…"
             className="h-12 w-full rounded-2xl border border-input bg-background/60 pr-10 pl-11 text-sm outline-none backdrop-blur focus-visible:ring-2 focus-visible:ring-ring"
           />
           {pending && <Loader2 className="absolute top-1/2 right-4 size-4 -translate-y-1/2 animate-spin text-muted-foreground" aria-label="Đang tải" />}
@@ -86,7 +86,7 @@ export function ProductFilters({ themes, categories, total }: { themes: string[]
         </div>
       </div>
 
-      <div id="filter-panel" className={cn("glass grid gap-3 rounded-2xl p-4 sm:grid-cols-2 lg:grid lg:grid-cols-5", open ? "grid" : "hidden")}>
+      <div id="filter-panel" className={cn("glass grid-cols-2 gap-3 rounded-2xl p-3 sm:p-4 lg:grid lg:grid-cols-5", open ? "grid" : "hidden")}>
         <Field label="Theme">
           <select className={selectCls} value={params.get("theme") ?? ""} onChange={(e) => update({ theme: e.target.value })}>
             <option value="">Tất cả theme</option>
@@ -126,7 +126,7 @@ export function ProductFilters({ themes, categories, total }: { themes: string[]
             ))}
           </select>
         </Field>
-        <div className="flex items-end gap-2">
+        <div className="col-span-2 flex items-end gap-2 lg:col-span-1">
           <label className="flex h-11 flex-1 cursor-pointer items-center gap-2 rounded-xl border border-input bg-background/60 px-3 text-sm">
             <input
               type="checkbox"

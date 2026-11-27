@@ -50,7 +50,7 @@ export function ThemeScroller({ themes }: { themes: ThemeSummary[] }) {
   if (!themes.length) return null;
 
   return (
-    <section ref={section} aria-labelledby="themes-heading" className="relative overflow-hidden py-24 md:flex md:h-dvh md:flex-col md:justify-center md:py-0">
+    <section ref={section} aria-labelledby="themes-heading" className="relative overflow-hidden py-16 md:flex md:h-dvh md:flex-col md:justify-center md:py-0">
       <div className="mx-auto w-full max-w-7xl px-4 md:px-6">
         <p className="text-sm font-semibold tracking-[0.3em] text-brick-blue uppercase dark:text-[#4d8eff]">Bộ sưu tập</p>
         <h2 id="themes-heading" className="mt-3 font-display text-4xl font-bold tracking-tight md:text-6xl">
@@ -59,7 +59,7 @@ export function ThemeScroller({ themes }: { themes: ThemeSummary[] }) {
       </div>
       <div
         ref={track}
-        className="mt-10 flex snap-x snap-mandatory gap-5 overflow-x-auto px-4 pb-4 will-change-transform md:w-max md:snap-none md:overflow-visible md:px-6 md:pl-[max(1.5rem,calc((100vw-80rem)/2+1.5rem))]"
+        className="mt-10 flex snap-x snap-mandatory scroll-pl-4 gap-4 overflow-x-auto px-4 pb-4 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden sm:gap-5 will-change-transform md:w-max md:snap-none md:overflow-visible md:px-6 md:pl-[max(1.5rem,calc((100vw-80rem)/2+1.5rem))]"
       >
         {themes.map((t, i) => (
           <Link

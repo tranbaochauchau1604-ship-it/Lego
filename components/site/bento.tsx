@@ -4,7 +4,7 @@ import { formatNumber } from "@/lib/format";
 
 export function Bento({ productCount, themeCount }: { productCount: number; themeCount: number }) {
   return (
-    <section aria-labelledby="why-heading" className="mx-auto max-w-7xl px-4 py-24 md:px-6">
+    <section aria-labelledby="why-heading" className="mx-auto max-w-7xl px-4 py-16 md:px-6 md:py-24">
       <Reveal>
         <p className="text-sm font-semibold tracking-[0.3em] text-brick-red uppercase">Vì sao chọn chúng tôi</p>
         <h2 id="why-heading" className="mt-3 max-w-2xl font-display text-4xl font-bold tracking-tight md:text-6xl">

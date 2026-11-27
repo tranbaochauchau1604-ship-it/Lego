@@ -5,6 +5,7 @@ import { notFound } from "next/navigation";
 import { Blocks, CalendarDays, ChevronRight, Hash, PackageCheck, PackageX, Users } from "lucide-react";
 import { Reveal } from "@/components/effects/reveal";
 import { ContactButtons } from "@/components/products/contact-buttons";
+import { MobileContactBar } from "@/components/products/mobile-contact-bar";
 import { Markdown } from "@/components/products/markdown";
 import { Price, SaleBadge } from "@/components/products/price";
 import { ProductCard } from "@/components/products/product-card";
@@ -81,7 +82,7 @@ export default async function ProductDetailPage({ params }: PageProps<"/products
 
   return (
     <PageTransition>
-    <div className="mx-auto max-w-7xl px-4 pt-28 pb-10 md:px-6">
+    <div className="mx-auto max-w-7xl px-4 pt-24 pb-28 md:px-6 md:pt-28 lg:pb-10">
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd).replace(/</g, "\\u003c") }} />
       <nav aria-label="Breadcrumb" className="mb-8 flex flex-wrap items-center gap-1.5 text-sm text-muted-foreground">
         <Link href="/" className="hover:text-foreground">Trang chủ</Link>
@@ -110,10 +111,10 @@ export default async function ProductDetailPage({ params }: PageProps<"/products
             )}
             <SaleBadge price={product.price} salePrice={product.sale_price} />
           </div>
-          <h1 className="font-display text-4xl leading-[1.05] font-bold tracking-tight md:text-5xl">{product.name}</h1>
+          <h1 className="font-display text-3xl leading-[1.05] font-bold tracking-tight sm:text-4xl md:text-5xl">{product.name}</h1>
           {product.short_description && <p className="text-lg text-muted-foreground">{product.short_description}</p>}
 
-          <div className="glass rounded-3xl p-6">
+          <div className="glass rounded-3xl p-5 sm:p-6">
             <Price price={product.price} salePrice={product.sale_price} size="lg" />
             <p className={`mt-3 inline-flex items-center gap-2 text-sm font-medium ${inStock ? "text-emerald-500" : "text-muted-foreground"}`}>
               {inStock ? <PackageCheck className="size-4" aria-hidden /> : <PackageX className="size-4" aria-hidden />}
@@ -145,11 +146,11 @@ export default async function ProductDetailPage({ params }: PageProps<"/products
       )}
 
       {related.length > 0 && (
-        <section className="mt-24" aria-labelledby="related-heading">
+        <section className="mt-16 md:mt-24" aria-labelledby="related-heading">
           <Reveal>
             <h2 id="related-heading" className="font-display text-3xl font-bold md:text-4xl">Sản phẩm liên quan</h2>
           </Reveal>
-          <ul className="mt-8 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
+          <ul className="mt-8 grid grid-cols-2 gap-3 sm:gap-6 lg:grid-cols-4">
             {related.map((p, i) => (
               <li key={p.id}>
                 <Reveal delay={i * 0.06} className="h-full">
@@ -161,6 +162,7 @@ export default async function ProductDetailPage({ params }: PageProps<"/products
         </section>
       )}
     </div>
+      <MobileContactBar name={product.name} setNumber={product.set_number} price={product.price} salePrice={product.sale_price} />
     </PageTransition>
   );
 }

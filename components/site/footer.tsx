@@ -5,9 +5,9 @@ import { siteConfig } from "@/lib/site-config";
 export function Footer() {
   const year = new Date().getFullYear();
   return (
-    <footer className="relative mt-32 border-t border-border">
-      <div className="mx-auto grid max-w-7xl gap-10 px-4 py-14 md:grid-cols-4 md:px-6">
-        <div className="md:col-span-2">
+    <footer className="relative mt-20 border-t md:mt-32 border-border">
+      <div className="mx-auto grid max-w-7xl grid-cols-2 gap-x-6 gap-y-10 px-4 py-12 md:grid-cols-4 md:px-6 md:py-14">
+        <div className="col-span-2">
           <div className="flex items-center gap-2.5">
             <BrickMark />
             <span className="font-display text-xl font-bold">{siteConfig.name}</span>

@@ -24,7 +24,7 @@ export default async function HomePage() {
         <Marquee items={themes.map((t) => t.theme)} />
       </div>
 
-      <section aria-labelledby="featured-heading" className="mx-auto max-w-7xl px-4 py-24 md:px-6">
+      <section aria-labelledby="featured-heading" className="mx-auto max-w-7xl px-4 py-16 md:px-6 md:py-24">
         <Reveal className="flex flex-wrap items-end justify-between gap-6">
           <div>
             <p className="text-sm font-semibold tracking-[0.3em] text-brick-yellow uppercase">Tuyển chọn</p>
@@ -37,7 +37,7 @@ export default async function HomePage() {
           </Link>
         </Reveal>
         {featured.length ? (
-          <ul className="mt-12 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
+          <ul className="mt-12 grid grid-cols-2 gap-3 sm:gap-6 lg:grid-cols-4">
             {featured.map((p, i) => (
               <li key={p.id}>
                 <Reveal delay={(i % 4) * 0.08} className="h-full">
