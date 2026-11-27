@@ -1,8 +1,9 @@
 import Link from "next/link";
 import { BrickMark } from "@/components/site/logo";
+import type { Contacts } from "@/lib/contact";
 import { siteConfig } from "@/lib/site-config";
 
-export function Footer() {
+export function Footer({ contacts }: { contacts: Contacts }) {
   const year = new Date().getFullYear();
   return (
     <footer className="relative mt-20 border-t md:mt-32 border-border">
@@ -25,11 +26,14 @@ export function Footer() {
         <div>
           <h2 className="text-sm font-semibold tracking-wider text-muted-foreground uppercase">Liên hệ</h2>
           <ul className="mt-4 space-y-2 text-sm">
-            {siteConfig.contact.zalo && (
-              <li><a className="hover:text-brick-yellow" href={siteConfig.contact.zalo} target="_blank" rel="noopener noreferrer">Zalo</a></li>
+            {contacts.zalo && (
+              <li><a className="hover:text-brick-yellow" href={contacts.zalo} target="_blank" rel="noopener noreferrer">Zalo</a></li>
             )}
-            {siteConfig.contact.messenger && (
-              <li><a className="hover:text-brick-yellow" href={siteConfig.contact.messenger} target="_blank" rel="noopener noreferrer">Messenger</a></li>
+            {contacts.messenger && (
+              <li><a className="hover:text-brick-yellow" href={contacts.messenger} target="_blank" rel="noopener noreferrer">Messenger</a></li>
+            )}
+            {contacts.instagram && (
+              <li><a className="hover:text-brick-yellow" href={contacts.instagram} target="_blank" rel="noopener noreferrer">Instagram</a></li>
             )}
             <li className="text-muted-foreground">Giao hàng toàn quốc</li>
           </ul>

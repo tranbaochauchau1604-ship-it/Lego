@@ -8,7 +8,9 @@ import { STORAGE_BUCKET } from "@/lib/env";
 import { storagePathFromUrl } from "@/lib/storage";
 import { createAdminClient } from "@/lib/supabase/admin";
 import { createClient } from "@/lib/supabase/server";
+import { CONTACT_KEYS } from "@/lib/contact";
 import { categorySchema } from "@/lib/validations/category";
+import { contactSettingsSchema } from "@/lib/validations/settings";
 import { productSchema, toggleSchema } from "@/lib/validations/product";
 import type { ActionResult } from "@/types";
 
@@ -181,6 +183,29 @@ export async function deleteCategory(id: string): Promise<ActionResult> {
     if (error) throw error;
     revalidateStorefront();
     return { ok: true, message: "Đã xoá danh mục" };
+  } catch (e) {
+    return fail(e);
+  }
+}
+
+// ---------------------------------------------------------------------------
+// Cài đặt website (liên hệ Zalo / Instagram / Messenger)
+// ---------------------------------------------------------------------------
+export async function saveContactSettings(input: unknown): Promise<ActionResult> {
+  try {
+    const { supabase } = await assertAdmin();
+    const parsed = contactSettingsSchema.safeParse(input);
+    if (!parsed.success) return { ok: false, error: "Dữ liệu không hợp lệ", fieldErrors: z.flattenError(parsed.error).fieldErrors };
+    const rows = [
+      { key: CONTACT_KEYS.zalo, value: parsed.data.zalo },
+      { key: CONTACT_KEYS.instagram, value: parsed.data.instagram },
+      { key: CONTACT_KEYS.messenger, value: parsed.data.messenger },
+    ];
+    const { error } = await supabase.from("site_settings").upsert(rows, { onConflict: "key" });
+    if (error) throw error;
+    revalidateStorefront();
+    revalidatePath("/admin/settings");
+    return { ok: true, message: "Đã lưu cài đặt liên hệ" };
   } catch (e) {
     return fail(e);
   }

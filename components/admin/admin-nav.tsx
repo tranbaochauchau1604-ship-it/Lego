@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { ExternalLink, FolderTree, LayoutDashboard, Package, PlusCircle } from "lucide-react";
+import { ExternalLink, FolderTree, LayoutDashboard, Package, PlusCircle, Settings } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 const items = [
@@ -10,6 +10,7 @@ const items = [
   { href: "/admin/products", label: "Sản phẩm", icon: Package, exact: false },
   { href: "/admin/products/new", label: "Thêm sản phẩm", icon: PlusCircle, exact: true },
   { href: "/admin/categories", label: "Danh mục", icon: FolderTree, exact: false },
+  { href: "/admin/settings", label: "Cài đặt", icon: Settings, exact: false },
 ];
 
 export function AdminNav() {

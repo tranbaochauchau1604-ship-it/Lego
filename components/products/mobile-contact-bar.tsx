@@ -1,6 +1,6 @@
 import { MessageCircle, Send } from "lucide-react";
 import { effectivePrice, formatPrice } from "@/lib/format";
-import { siteConfig } from "@/lib/site-config";
+import type { Contacts } from "@/lib/contact";
 
 /** Thanh liên hệ cố định ở đáy màn hình điện thoại: luôn thấy giá và nút đặt hàng. */
 export function MobileContactBar({
@@ -8,17 +8,19 @@ export function MobileContactBar({
   setNumber,
   price,
   salePrice,
+  contacts,
 }: {
   name: string;
   setNumber: string | null;
   price: number;
   salePrice: number | null;
+  contacts: Contacts;
 }) {
-  const { zalo, messenger } = siteConfig.contact;
-  if (!zalo && !messenger) return null;
+  const { zalo, messenger, instagram } = contacts;
+  if (!zalo && !messenger && !instagram) return null;
   const note = `Mình muốn đặt: ${name}${setNumber ? ` (#${setNumber})` : ""}`;
   const messengerHref = messenger ? `${messenger}${messenger.includes("?") ? "&" : "?"}text=${encodeURIComponent(note)}` : "";
-  const href = zalo || messengerHref;
+  const href = zalo || messengerHref || instagram;
   const Icon = zalo ? MessageCircle : Send;
 
   return (

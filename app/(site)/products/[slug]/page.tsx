@@ -10,6 +10,7 @@ import { Markdown } from "@/components/products/markdown";
 import { Price, SaleBadge } from "@/components/products/price";
 import { ProductCard } from "@/components/products/product-card";
 import { ProductGallery } from "@/components/products/product-gallery";
+import { getContacts } from "@/lib/data/settings";
 import { getAllProductSlugs, getProductBySlug, getRelatedProducts } from "@/lib/data/products";
 import { effectivePrice, formatNumber, formatPrice } from "@/lib/format";
 import { siteConfig } from "@/lib/site-config";
@@ -50,7 +51,7 @@ export default async function ProductDetailPage({ params }: PageProps<"/products
   const { slug } = await params;
   const product = await getProductBySlug(slug);
   if (!product) notFound();
-  const related = await getRelatedProducts(product);
+  const [related, contacts] = await Promise.all([getRelatedProducts(product), getContacts()]);
   const images = product.images.length ? product.images : product.thumbnail ? [product.thumbnail] : [];
   // Đưa thumbnail lên đầu để khớp ảnh ở card (cho hiệu ứng ảnh bay sang)
   const ordered = product.thumbnail && images.includes(product.thumbnail) ? [product.thumbnail, ...images.filter((i) => i !== product.thumbnail)] : images;
@@ -121,7 +122,7 @@ export default async function ProductDetailPage({ params }: PageProps<"/products
               {inStock ? `Còn hàng (${product.stock})` : "Tạm hết hàng — liên hệ để đặt trước"}
             </p>
             <div className="mt-6">
-              <ContactButtons productName={product.name} setNumber={product.set_number} />
+              <ContactButtons productName={product.name} setNumber={product.set_number} contacts={contacts} />
             </div>
           </div>
 
@@ -162,7 +163,7 @@ export default async function ProductDetailPage({ params }: PageProps<"/products
         </section>
       )}
     </div>
-      <MobileContactBar name={product.name} setNumber={product.set_number} price={product.price} salePrice={product.sale_price} />
+      <MobileContactBar name={product.name} setNumber={product.set_number} price={product.price} salePrice={product.sale_price} contacts={contacts} />
     </PageTransition>
   );
 }
